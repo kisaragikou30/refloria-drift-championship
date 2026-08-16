@@ -1,0 +1,26 @@
+REFLORIA DATABASE STEP 2 — 次にやること
+
+1. Supabaseの管理画面で Authentication → Users を開く。
+2. 「Add user / Create user」から管理者用メールアドレスとパスワードを登録。
+3. GitHubのリポジトリで今回のZIPの中身をアップロードして上書き。
+   - admin/index.html
+   - admin/admin.css
+   - admin/admin.js
+   - index.html
+   - event.html
+   - public-db.js
+   - supabase-config.js
+   - （既存のCSS/JS/画像はそのまま）
+4. 公開サイト:
+   https://kisaragikou30.github.io/refloria-drift-championship/
+5. 管理画面:
+   https://kisaragikou30.github.io/refloria-drift-championship/admin/
+6. 管理画面に、Supabaseで作った管理者アカウントでログイン。
+7. 開催日を変更してDATABASE SAVE → 公開サイトを再読み込み。
+   同じデータベースの内容が公開サイトに反映されます。
+
+Supabase project URL:
+https://sofeiqphjhtocnigrpsg.supabase.co
+
+注意:
+supabase-config.jsに入っているのはPublishable keyです。service_role / secret keyは使っていません。

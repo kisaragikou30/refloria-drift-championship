@@ -1,79 +1,55 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>REFLORIA ADMIN</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>REFLORIA ADMIN — DATABASE</title>
 <link rel="stylesheet" href="admin.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../supabase-config.js"></script>
 </head>
 <body>
-<div class="bg"></div>
-<header>
-  <a class="logo" href="../index.html"><b>R</b><span>REFLORIA<small>DRIFT CHAMPIONSHIP / ADMIN</small></span></a>
-  <div class="status"><i></i> LOCAL ADMIN MODE</div>
-</header>
-
 <main>
-  <section class="hero">
-    <p>CONTROL PANEL / STEP 1</p>
-    <h1>REFLORIA <em>ADMIN</em></h1>
-    <span>大会情報をここから編集できます。</span>
-  </section>
+<header><div><p>DATABASE CONTROL / STEP 2</p><h1>REFLORIA <em>ADMIN</em></h1></div><button id="logout" hidden>LOG OUT</button></header>
 
-  <div class="layout">
-    <aside class="tabs">
-      <button class="tab active" data-tab="event">🏁 大会情報</button>
-      <button class="tab" data-tab="drivers">👤 選手管理</button>
-      <button class="tab" data-tab="preview">👁 プレビュー</button>
-    </aside>
+<section id="login" class="card">
+<h2>ADMIN LOGIN</h2><p>管理者だけが大会情報を変更できます。</p>
+<input id="email" type="email" placeholder="メールアドレス">
+<input id="password" type="password" placeholder="パスワード">
+<button id="loginBtn">LOGIN</button><p id="loginMsg"></p>
+</section>
 
-    <section class="content">
-      <div class="panel active" id="event">
-        <div class="panel-title"><span>EVENT SETTINGS</span><h2>次回開催</h2></div>
-        <form id="eventForm">
-          <div class="grid">
-            <label>イベント名<input id="eventName" required></label>
-            <label>開催日<input id="eventDate" type="date" required></label>
-            <label>開催時間<input id="eventTime" type="time" required></label>
-            <label>開催場所<input id="eventLocation" required></label>
-            <label>主催者<input id="eventHost"></label>
-            <label>賞金・タイトル<input id="eventPrize"></label>
-          </div>
-          <label>イベント内容<textarea id="eventDescription" rows="5"></textarea></label>
-          <div class="checks">
-            <label><input id="driftOnly" type="checkbox"> ドリフト車限定</label>
-            <label><input id="tcsOff" type="checkbox"> TCS OFF推奨</label>
-            <label><input id="nonCustom" type="checkbox"> ノンカスのみ</label>
-            <label><input id="judge" type="checkbox"> 審査員審査</label>
-          </div>
-          <button class="save" type="submit">SAVE EVENT <b>✓</b></button>
-          <p class="saved" id="eventSaved">保存しました。</p>
-        </form>
-      </div>
+<section id="app" hidden>
+<nav><button data-page="event" class="active">🏁 大会情報</button><button data-page="drivers">👤 選手管理</button></nav>
 
-      <div class="panel" id="drivers">
-        <div class="panel-title"><span>DRIVER MANAGEMENT</span><h2>選手登録</h2></div>
-        <form id="driverForm" class="driver-add">
-          <input id="driverName" placeholder="選手名" required>
-          <input id="driverCar" placeholder="車種">
-          <input id="driverTeam" placeholder="チーム名">
-          <button class="save" type="submit">ADD DRIVER +</button>
-        </form>
-        <div id="driverList" class="driver-list"></div>
-      </div>
+<div id="eventPage" class="card page">
+<h2>次回開催</h2>
+<form id="eventForm">
+<div class="grid">
+<label>イベント名<input id="eventName" required></label>
+<label>開催日<input id="eventDate" type="date" required></label>
+<label>開催時間<input id="eventTime" type="time" required></label>
+<label>開催場所<input id="eventLocation" required></label>
+<label>主催者<input id="eventHost"></label>
+<label>賞金・タイトル<input id="eventPrize"></label>
+</div>
+<label>イベント内容<textarea id="eventDescription"></textarea></label>
+<div class="checks">
+<label><input id="driftOnly" type="checkbox"> ドリフト車限定</label>
+<label><input id="tcsOff" type="checkbox"> TCS OFF推奨</label>
+<label><input id="nonCustom" type="checkbox"> ノンカスのみ</label>
+<label><input id="judgeReview" type="checkbox"> 審査員審査</label>
+</div>
+<button type="submit">DATABASE SAVE</button><span id="saveMsg"></span>
+</form>
+</div>
 
-      <div class="panel" id="preview">
-        <div class="panel-title"><span>LIVE DATA</span><h2>現在の登録内容</h2></div>
-        <div id="previewBox" class="preview-box"></div>
-        <button class="outline" id="openSite">公開サイトを開く ↗</button>
-      </div>
-    </section>
-  </div>
+<div id="driversPage" class="card page" hidden>
+<h2>選手管理</h2>
+<form id="driverForm" class="driverForm"><input id="driverName" placeholder="選手名" required><input id="driverCar" placeholder="車種"><input id="driverTeam" placeholder="チーム名"><button>ADD</button></form>
+<div id="driverList"></div>
+</div>
+</section>
 </main>
-
-<script src="admin.js"></script>
+<script src="admin-v2.js"></script>
 </body>
 </html>

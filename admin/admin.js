@@ -1,31 +1,50 @@
-
-const KEY="refloria_admin_data_v1";
-const defaults={
- event:{name:"高額賞金イベント",date:"2026-08-29",time:"22:00",location:"170番地地下",host:"RedStone",prize:"高額賞金",description:"次回開催のドリフトイベント。単走・追走を審査員が審査する形式。",driftOnly:true,tcsOff:true,nonCustom:false,judge:true},
- drivers:[]
-};
-let data=JSON.parse(localStorage.getItem(KEY)||"null")||defaults;
+const {createClient}=supabase;
+const client=createClient(window.REFLORIA_SUPABASE_URL,window.REFLORIA_SUPABASE_KEY);
 const $=id=>document.getElementById(id);
-function save(){localStorage.setItem(KEY,JSON.stringify(data));}
-function loadEvent(){
- const e=data.event;
- $("eventName").value=e.name;$("eventDate").value=e.date;$("eventTime").value=e.time;$("eventLocation").value=e.location;
- $("eventHost").value=e.host||"";$("eventPrize").value=e.prize||"";$("eventDescription").value=e.description||"";
- $("driftOnly").checked=!!e.driftOnly;$("tcsOff").checked=!!e.tcsOff;$("nonCustom").checked=!!e.nonCustom;$("judge").checked=!!e.judge;
+
+async function init(){
+ if(window.REFLORIA_SUPABASE_URL.includes("YOUR_")) {
+  $("loginMsg").textContent="supabase-config.js に接続情報を入れてください。"; return;
+ }
+ const {data:{session}}=await client.auth.getSession();
+ if(session) showApp(); else $("login").hidden=false;
 }
-function renderDrivers(){
- $("driverList").innerHTML=data.drivers.length?data.drivers.map((d,i)=>`<div class="driver-row"><b>${esc(d.name)}</b><span>${esc(d.car||"—")}</span><span>${esc(d.team||"—")}</span><button class="delete" onclick="removeDriver(${i})">削除</button></div>`).join(""):"<p style='color:#777e8d'>まだ選手が登録されていません。</p>";
+async function login(){
+ const {error}=await client.auth.signInWithPassword({email:$("email").value,password:$("password").value});
+ $("loginMsg").textContent=error?error.message:"ログインしました。";
+ if(!error) showApp();
 }
-function renderPreview(){
- const e=data.event;
- const tags=[];if(e.driftOnly)tags.push("ドリフト車限定");if(e.tcsOff)tags.push("TCS OFF推奨");if(e.nonCustom)tags.push("ノンカスのみ");if(e.judge)tags.push("審査員審査");
- const d=new Date(e.date+"T00:00:00");const date=isNaN(d)?e.date:`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")}`;
- $("previewBox").innerHTML=`<div class="preview-label">NEXT EVENT</div><strong>${esc(e.name)}</strong><br><b>${date} / ${esc(e.time)}</b><br>📍 ${esc(e.location)}${e.host?`<br>主催：${esc(e.host)}`:""}${e.prize?`<br>🏆 ${esc(e.prize)}`:""}<div class="preview-tags">${tags.map(t=>`<span>${t}</span>`).join("")}</div>`;
+function showApp(){ $("login").hidden=true;$("app").hidden=false;$("logout").hidden=false;loadEvent();loadDrivers(); }
+$("loginBtn").onclick=login;
+$("logout").onclick=async()=>{await client.auth.signOut();location.reload();};
+
+async function loadEvent(){
+ const {data,error}=await client.from("event_settings").select("*").order("id",{ascending:false}).limit(1).maybeSingle();
+ if(error){$("saveMsg").textContent=error.message;return}
+ if(!data)return;
+ $("eventName").value=data.event_name;$("eventDate").value=data.event_date;$("eventTime").value=data.event_time?.slice(0,5)||"";
+ $("eventLocation").value=data.event_location;$("eventHost").value=data.host||"";$("eventPrize").value=data.prize||"";
+ $("eventDescription").value=data.description||"";$("driftOnly").checked=data.drift_only;$("tcsOff").checked=data.tcs_off;
+ $("nonCustom").checked=data.non_custom;$("judgeReview").checked=data.judge_review;
 }
-$("eventForm").addEventListener("submit",ev=>{ev.preventDefault();data.event={name:$("eventName").value,date:$("eventDate").value,time:$("eventTime").value,location:$("eventLocation").value,host:$("eventHost").value,prize:$("eventPrize").value,description:$("eventDescription").value,driftOnly:$("driftOnly").checked,tcsOff:$("tcsOff").checked,nonCustom:$("nonCustom").checked,judge:$("judge").checked};save();renderPreview();$("eventSaved").style.display="inline";setTimeout(()=>$("eventSaved").style.display="none",1800)});
-$("driverForm").addEventListener("submit",ev=>{ev.preventDefault();data.drivers.push({name:$("driverName").value,car:$("driverCar").value,team:$("driverTeam").value});save();ev.target.reset();renderDrivers();renderPreview()});
-function removeDriver(i){data.drivers.splice(i,1);save();renderDrivers();}
+$("eventForm").onsubmit=async e=>{
+ e.preventDefault();
+ const {data:old}=await client.from("event_settings").select("id").order("id",{ascending:false}).limit(1).maybeSingle();
+ const payload={event_name:$("eventName").value,event_date:$("eventDate").value,event_time:$("eventTime").value,event_location:$("eventLocation").value,host:$("eventHost").value,prize:$("eventPrize").value,description:$("eventDescription").value,drift_only:$("driftOnly").checked,tcs_off:$("tcsOff").checked,non_custom:$("nonCustom").checked,judge_review:$("judgeReview").checked,updated_at:new Date().toISOString()};
+ const q=old?client.from("event_settings").update(payload).eq("id",old.id):client.from("event_settings").insert(payload);
+ const {error}=await q;$("saveMsg").textContent=error?error.message:"保存しました ✓";if(!error)loadEvent();
+};
+
+async function loadDrivers(){
+ const {data,error}=await client.from("drivers").select("*").order("id",{ascending:true});
+ if(error){$("driverList").textContent=error.message;return}
+ $("driverList").innerHTML=data.map(d=>`<div class="driver"><b>${esc(d.name)}</b><span>${esc(d.car||"—")}</span><span>${esc(d.team||"—")}</span><button onclick="delDriver(${d.id})">削除</button></div>`).join("")||"<p>選手がまだいません。</p>";
+}
+$("driverForm").onsubmit=async e=>{
+ e.preventDefault(); const {error}=await client.from("drivers").insert({name:$("driverName").value,car:$("driverCar").value,team:$("driverTeam").value});
+ if(!error){e.target.reset();loadDrivers()}else alert(error.message);
+};
+async function delDriver(id){if(confirm("この選手を削除しますか？")){await client.from("drivers").delete().eq("id",id);loadDrivers()}}
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));btn.classList.add("active");$(btn.dataset.tab).classList.add("active")}));
-$("openSite").addEventListener("click",()=>window.open("../event.html","_blank"));
-loadEvent();renderDrivers();renderPreview();
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");$("eventPage").hidden=b.dataset.page!=="event";$("driversPage").hidden=b.dataset.page!=="drivers"});
+init();

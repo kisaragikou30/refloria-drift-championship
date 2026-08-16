@@ -53,8 +53,8 @@
         </p>
         <div class="event-date-box next-event-main">
           <span>NEXT EVENT</span>
-          <strong>2026.08.29 <b>SAT</b></strong>
-          <small>22:00 START / 170番地地下</small>
+          <strong><span data-event-date>2026.08.29 SAT</span></strong>
+          <small><span data-event-time>22:00</span> START / <span data-event-location>170番地地下</span></small>
         </div>
       </div>
 
@@ -65,8 +65,8 @@
     </section>
 
     <section class="event-stats">
-      <div><span>DATE</span><strong>08.29 SAT</strong><small>22:00 START</small></div>
-      <div><span>VENUE</span><strong>170番地地下</strong><small>EVENT LOCATION</small></div>
+      <div><span>DATE</span><strong data-event-date-short>08.29 SAT</strong><small><span data-event-time>22:00</span> START</small></div>
+      <div><span>VENUE</span><strong data-event-location>170番地地下</strong><small>EVENT LOCATION</small></div>
       <div><span>CLASS</span><strong>DRIFT ONLY</strong><small>TCS OFF 推奨</small></div>
       <div><span>FORMAT</span><strong>審査形式</strong><small>単走追走 / 審査員審査</small></div>
     </section>
@@ -86,9 +86,9 @@
           </p>
         </div>
         <div class="overview-panel">
-          <div><span>DATE</span><strong>2026.08.29 SAT</strong></div>
-          <div><span>START</span><strong>22:00</strong></div>
-          <div><span>VENUE</span><strong>170番地地下</strong></div>
+          <div><span>DATE</span><strong data-event-date>2026.08.29 SAT</strong></div>
+          <div><span>START</span><strong data-event-time>22:00</strong></div>
+          <div><span>VENUE</span><strong data-event-location>170番地地下</strong></div>
           <div><span>CLASS</span><strong>DRIFT ONLY<br><small>TCS OFF 推奨</small></strong></div>
         </div>
       </div>
@@ -167,6 +167,9 @@
     <p>© 2026 REFLORIA DRIFT CHAMPIONSHIP. ALL RIGHTS RESERVED.</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="script.js"></script>
+<script src="public-db.js"></script>
 </body>
 </html>
