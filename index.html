@@ -1,266 +1,79 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Refloria DRIFT CHAMPIONSHIP - FiveM City Drift Championship" />
-  <title>Refloria DRIFT CHAMPIONSHIP</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>REFLORIA ADMIN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
 </head>
 <body>
-  <div class="noise"></div>
-  <header class="site-header" id="top">
-    <a class="brand" href="#top" aria-label="Refloria DRIFT CHAMPIONSHIP">
-      <span class="brand-mark">R</span>
-      <span>
-        <strong>REFLORIA</strong>
-        <small>DRIFT CHAMPIONSHIP</small>
-      </span>
-    </a>
+<div class="bg"></div>
+<header>
+  <a class="logo" href="../index.html"><b>R</b><span>REFLORIA<small>DRIFT CHAMPIONSHIP / ADMIN</small></span></a>
+  <div class="status"><i></i> LOCAL ADMIN MODE</div>
+</header>
 
-    <button class="menu-toggle" aria-label="メニューを開く" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
+<main>
+  <section class="hero">
+    <p>CONTROL PANEL / STEP 1</p>
+    <h1>REFLORIA <em>ADMIN</em></h1>
+    <span>大会情報をここから編集できます。</span>
+  </section>
 
-    <nav class="nav">
-      <a class="active" href="#top">HOME</a>
-      <a href="event.html">EVENT</a>
-      <a href="#drivers">DRIVERS</a>
-      <a href="#tournament">TOURNAMENT</a>
-      <a href="#result">RESULT</a>
-      <a href="#gallery">GALLERY</a>
-      <a href="#news">NEWS</a>
-      <a class="nav-entry" href="#entry">ENTRY</a>
-    </nav>
-  </header>
+  <div class="layout">
+    <aside class="tabs">
+      <button class="tab active" data-tab="event">🏁 大会情報</button>
+      <button class="tab" data-tab="drivers">👤 選手管理</button>
+      <button class="tab" data-tab="preview">👁 プレビュー</button>
+    </aside>
 
-  <main>
-    <section class="hero">
-      <div class="hero-grid"></div>
-      <div class="hero-glow glow-one"></div>
-      <div class="hero-glow glow-two"></div>
-      <div class="hero-image-wrap">
-        <img class="hero-car" src="hero-car.png" alt="Refloria Drift Championship hero car" />
-        <div class="hero-image-vignette"></div>
+    <section class="content">
+      <div class="panel active" id="event">
+        <div class="panel-title"><span>EVENT SETTINGS</span><h2>次回開催</h2></div>
+        <form id="eventForm">
+          <div class="grid">
+            <label>イベント名<input id="eventName" required></label>
+            <label>開催日<input id="eventDate" type="date" required></label>
+            <label>開催時間<input id="eventTime" type="time" required></label>
+            <label>開催場所<input id="eventLocation" required></label>
+            <label>主催者<input id="eventHost"></label>
+            <label>賞金・タイトル<input id="eventPrize"></label>
+          </div>
+          <label>イベント内容<textarea id="eventDescription" rows="5"></textarea></label>
+          <div class="checks">
+            <label><input id="driftOnly" type="checkbox"> ドリフト車限定</label>
+            <label><input id="tcsOff" type="checkbox"> TCS OFF推奨</label>
+            <label><input id="nonCustom" type="checkbox"> ノンカスのみ</label>
+            <label><input id="judge" type="checkbox"> 審査員審査</label>
+          </div>
+          <button class="save" type="submit">SAVE EVENT <b>✓</b></button>
+          <p class="saved" id="eventSaved">保存しました。</p>
+        </form>
       </div>
 
-      <div class="hero-content reveal">
-        <p class="eyebrow"><span></span> FIVE M CITY DRIFT SERIES</p>
-        <h1>
-          <span>REFLORIA</span>
-          <em>DRIFT</em>
-          <strong>CHAMPIONSHIP</strong>
-        </h1>
-        <p class="hero-copy">
-          THE CITY'S BEST DRIFT DRIVER.<br>
-          <span>ONE LINE. ONE STYLE. ONE CHAMPION.</span>
-        </p>
-
-        <div class="hero-actions">
-          <a href="#entry" class="btn btn-primary">ENTRY NOW <span>↗</span></a>
-          <a href="#event" class="btn btn-ghost">VIEW EVENT <span>↓</span></a>
-        </div>
-        <div class="hero-meta">
-          <div><small>DRIVERS</small><strong>16</strong><span>TOP 16</span></div>
-          <div><small>PRIZE POOL</small><strong>$1,000,000</strong><span>TOTAL PRIZE</span></div>
-          <div><small>RULES</small><strong>OPEN</strong><span>STREET CLASS</span></div>
-          <div><small>LIVE</small><strong>STREAM</strong><span>YOUTUBE LIVE</span></div>
-        </div>
+      <div class="panel" id="drivers">
+        <div class="panel-title"><span>DRIVER MANAGEMENT</span><h2>選手登録</h2></div>
+        <form id="driverForm" class="driver-add">
+          <input id="driverName" placeholder="選手名" required>
+          <input id="driverCar" placeholder="車種">
+          <input id="driverTeam" placeholder="チーム名">
+          <button class="save" type="submit">ADD DRIVER +</button>
+        </form>
+        <div id="driverList" class="driver-list"></div>
       </div>
 
-      <div class="hero-side reveal">
-        <div class="social-label">FOLLOW</div>
-        <div class="social-stack"><span>𝕏</span><span>◎</span><span>▶</span><span>◈</span></div>
-      </div>
-
-      <div class="hero-bottom">
-        <div class="scroll">SCROLL <span></span></div>
-        <div class="hero-stat">
-          <small>NEXT EVENT</small>
-          <strong id="nextDate">2026.09.20 SUN</strong>
-          <span>19:00 START</span>
-        </div>
-        <div class="hero-stat">
-          <small>LOCATION</small>
-          <strong>REFLORIA CITY</strong>
-          <span>DOWNTOWN CIRCUIT</span>
-        </div>
+      <div class="panel" id="preview">
+        <div class="panel-title"><span>LIVE DATA</span><h2>現在の登録内容</h2></div>
+        <div id="previewBox" class="preview-box"></div>
+        <button class="outline" id="openSite">公開サイトを開く ↗</button>
       </div>
     </section>
-
-    <section class="ticker" aria-label="大会情報">
-      <div class="ticker-track">
-        <span>REFLORIA DRIFT CHAMPIONSHIP</span><b>◆</b>
-        <span>SEASON 01</span><b>◆</b>
-        <span>REGISTRATION OPEN</span><b>◆</b>
-        <span>FIVE M CITY</span><b>◆</b>
-        <span>REFLORIA DRIFT CHAMPIONSHIP</span><b>◆</b>
-        <span>SEASON 01</span><b>◆</b>
-        <span>REGISTRATION OPEN</span><b>◆</b>
-        <span>FIVE M CITY</span><b>◆</b>
-      </div>
-    </section>
-
-    <section class="section event-section" id="event">
-      <div class="section-heading reveal">
-        <div>
-          <p class="eyebrow"><span></span> 01 / EVENT</p>
-          <h2>THE NEXT <em>BATTLE</em></h2>
-        </div>
-        <p class="section-desc">街を舞台に、最高のラインとスタイルを競う。<br>Refloria DRIFT CHAMPIONSHIP Season 01。</p>
-      </div>
-
-      <div class="event-grid">
-        <article class="event-card large reveal">
-          <div class="card-number">01</div>
-          <p>NEXT EVENT</p>
-          <h3>2026.09.20<br><small>SUNDAY / 19:00</small></h3>
-          <span>REFLORIA CITY / DOWNTOWN CIRCUIT</span>
-        </article>
-        <article class="event-card reveal">
-          <div class="card-number">02</div>
-          <p>FORMAT</p>
-          <h3>TOP<br>16</h3>
-          <span>QUALIFY → TANDEM → FINAL</span>
-        </article>
-        <article class="event-card accent reveal">
-          <div class="card-number">03</div>
-          <p>PRIZE POOL</p>
-          <h3>$1M</h3>
-          <span>SEASON 01 TOTAL PRIZE</span>
-        </article>
-      </div>
-    </section>
-
-    <section class="section drivers-section" id="drivers">
-      <div class="section-heading reveal">
-        <div>
-          <p class="eyebrow"><span></span> 02 / DRIVERS</p>
-          <h2>MEET THE <em>DRIVERS</em></h2>
-        </div>
-        <a class="text-link" href="#drivers">VIEW ALL DRIVERS ↗</a>
-      </div>
-
-      <div class="driver-grid">
-        <article class="driver-card reveal">
-          <div class="driver-photo photo-a"><span>01</span></div>
-          <div class="driver-info"><small>#001</small><h3>DRIVER NAME</h3><p>TEAM NAME</p></div>
-        </article>
-        <article class="driver-card reveal">
-          <div class="driver-photo photo-b"><span>02</span></div>
-          <div class="driver-info"><small>#002</small><h3>DRIVER NAME</h3><p>TEAM NAME</p></div>
-        </article>
-        <article class="driver-card reveal">
-          <div class="driver-photo photo-c"><span>03</span></div>
-          <div class="driver-info"><small>#003</small><h3>DRIVER NAME</h3><p>TEAM NAME</p></div>
-        </article>
-        <article class="driver-card reveal">
-          <div class="driver-photo photo-d"><span>04</span></div>
-          <div class="driver-info"><small>#004</small><h3>DRIVER NAME</h3><p>TEAM NAME</p></div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section tournament-section" id="tournament">
-      <div class="section-heading reveal">
-        <div>
-          <p class="eyebrow"><span></span> 03 / TOURNAMENT</p>
-          <h2>ROAD TO <em>FINAL</em></h2>
-        </div>
-        <span class="round-badge">SEASON 01 / TBD</span>
-      </div>
-
-      <div class="bracket reveal">
-        <div class="round">
-          <h3>QUARTER FINAL</h3>
-          <div class="match"><span>PLAYER A</span><b>—</b><span>PLAYER B</span></div>
-          <div class="match"><span>PLAYER C</span><b>—</b><span>PLAYER D</span></div>
-          <div class="match"><span>PLAYER E</span><b>—</b><span>PLAYER F</span></div>
-          <div class="match"><span>PLAYER G</span><b>—</b><span>PLAYER H</span></div>
-        </div>
-        <div class="round center">
-          <h3>SEMI FINAL</h3>
-          <div class="match"><span>TBD</span><b>—</b><span>TBD</span></div>
-          <div class="match"><span>TBD</span><b>—</b><span>TBD</span></div>
-        </div>
-        <div class="round final">
-          <h3>FINAL</h3>
-          <div class="final-match"><span>TBD</span><strong>VS</strong><span>TBD</span></div>
-          <p>CHAMPION</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section result-section" id="result">
-      <div class="result-panel reveal">
-        <div>
-          <p class="eyebrow"><span></span> 04 / RESULT</p>
-          <h2>WHO WILL BE<br><em>THE CHAMPION?</em></h2>
-        </div>
-        <div class="result-number">01</div>
-        <div class="result-caption">SEASON 01<br>RESULTS COMING SOON</div>
-      </div>
-    </section>
-
-    <section class="section gallery-section" id="gallery">
-      <div class="section-heading reveal">
-        <div>
-          <p class="eyebrow"><span></span> 05 / GALLERY</p>
-          <h2>FEEL THE <em>DRIFT</em></h2>
-        </div>
-        <a class="text-link" href="#gallery">VIEW GALLERY ↗</a>
-      </div>
-      <div class="gallery-grid">
-        <div class="gallery-item g1 reveal"><span>01</span></div>
-        <div class="gallery-item g2 reveal"><span>02</span></div>
-        <div class="gallery-item g3 reveal"><span>03</span></div>
-        <div class="gallery-item g4 reveal"><span>04</span></div>
-      </div>
-    </section>
-
-    <section class="section news-section" id="news">
-      <div class="section-heading reveal">
-        <div>
-          <p class="eyebrow"><span></span> 06 / NEWS</p>
-          <h2>LATEST <em>NEWS</em></h2>
-        </div>
-      </div>
-      <div class="news-list">
-        <article class="news reveal"><time>2026.08.17</time><span>INFO</span><h3>Refloria DRIFT CHAMPIONSHIP Season 01 開催決定。</h3><b>↗</b></article>
-        <article class="news reveal"><time>2026.08.17</time><span>ENTRY</span><h3>エントリー受付開始予定。詳細は近日公開。</h3><b>↗</b></article>
-        <article class="news reveal"><time>2026.08.17</time><span>RULE</span><h3>大会ルール・審査基準を公開予定。</h3><b>↗</b></article>
-      </div>
-    </section>
-
-    <section class="entry-section" id="entry">
-      <div class="entry-inner reveal">
-        <p class="eyebrow"><span></span> 07 / ENTRY</p>
-        <h2>READY TO <em>DRIFT?</em></h2>
-        <p>この街で一番速く、美しく、魅せるドライバーへ。</p>
-        <button class="btn btn-primary entry-button" type="button" id="entryButton">ENTRY FORM <span>↗</span></button>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="footer-brand">REFLORIA <span>DRIFT CHAMPIONSHIP</span></div>
-    <div>SEASON 01 © 2026 REFLORIA</div>
-    <a href="#top">BACK TO TOP ↑</a>
-  </footer>
-
-  <div class="modal" id="entryModal" aria-hidden="true">
-    <div class="modal-box">
-      <button class="modal-close" id="modalClose" aria-label="閉じる">×</button>
-      <p class="eyebrow"><span></span> ENTRY</p>
-      <h2>ENTRY <em>SOON</em></h2>
-      <p>エントリーフォームは現在準備中です。<br>公開時にここから申し込みできるようになります。</p>
-      <button class="btn btn-ghost" id="modalOk">CLOSE</button>
-    </div>
   </div>
+</main>
 
-  <script src="script.js"></script>
+<script src="admin.js"></script>
 </body>
 </html>
