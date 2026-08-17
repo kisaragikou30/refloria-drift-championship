@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="upcoming-events.css" />
 </head>
 <body>
   <div class="noise"></div>
@@ -61,7 +62,7 @@
 
         <div class="hero-actions">
           <a href="#entry" class="btn btn-primary">ENTRY NOW <span>↗</span></a>
-          <a href="#event" class="btn btn-ghost">VIEW EVENT <span>↓</span></a>
+          <a href="#event" class="btn btn-ghost">VIEW EVENTS <span>↓</span></a>
         </div>
         <div class="hero-meta">
           <div><small>DRIVERS</small><strong data-drivers-count>0</strong><span>REGISTERED</span></div>
@@ -108,29 +109,17 @@
       <div class="section-heading reveal">
         <div>
           <p class="eyebrow"><span></span> 01 / EVENT</p>
-          <h2>THE NEXT <em>BATTLE</em></h2>
+          <h2>UPCOMING <em>EVENTS</em></h2>
         </div>
-        <p class="section-desc">街を舞台に、最高のラインとスタイルを競う。<br>Refloria DRIFT CHAMPIONSHIP Season 01。</p>
+        <p class="section-desc">これから開催されるイベントを最大3件表示。<br>一番近い開催がNEXT EVENTとして自動表示されます。</p>
       </div>
 
-      <div class="event-grid">
-        <article class="event-card large reveal">
-          <div class="card-number">01</div>
-          <p>NEXT EVENT</p>
-          <h3 data-event-date>2026.08.29 SAT<br><small data-event-time>22:00 START</small></h3>
-          <span data-event-location>170番地地下</span>
-        </article>
-        <article class="event-card reveal">
-          <div class="card-number">02</div>
-          <p>FORMAT</p>
-          <h3>TOP<br>16</h3>
-          <span>QUALIFY → TANDEM → FINAL</span>
-        </article>
-        <article class="event-card accent reveal">
-          <div class="card-number">03</div>
-          <p>PRIZE POOL</p>
-          <h3>$1M</h3>
-          <span>SEASON 01 TOTAL PRIZE</span>
+      <div id="upcoming-events" class="upcoming-grid">
+        <article class="upcoming-card next-event">
+          <div class="upcoming-num">NEXT EVENT</div>
+          <div class="upcoming-date">LOADING...</div>
+          <h3>EVENT</h3>
+          <p>イベント情報を読み込んでいます。</p>
         </article>
       </div>
     </section>
@@ -265,5 +254,9 @@
 <script src="supabase-config.js"></script>
 <script src="script.js"></script>
 <script src="public-db.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  
+  <script src="public-db.js"></script>
 </body>
 </html>
