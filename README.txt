@@ -1,10 +1,12 @@
-公開サイトSTEP3更新版。
-GitHubのルートにある以下3ファイルを置き換えてください:
-1. index.html
-2. public-db.js
-3. upcoming-events.css
+公開サイトの最終修正版です。
+GitHubのルートにある script.js を、この script.js に置き換えてください。
+
+この版は、
+- Supabaseの events テーブルから未来のイベントを取得
+- 最大3件を日付順に表示
+- 一番近いものをNEXT EVENTとして大きく表示
+- 過去の日付は自動除外
+- 古いEVENT HTMLが残っていても #event 内に自動で新しい表示を作成
+します。
 
 supabase-config.js は変更不要です。
-これで events テーブルの「今日以降」のイベントを日付順に最大3件取得し、
-一番近いイベントをNEXT EVENTとして大きく表示します。
-開催日を過ぎると自動的に次のイベントがNEXT EVENTになります。
