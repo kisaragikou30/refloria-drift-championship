@@ -1,0 +1,94 @@
+
+/* Hero NEXT EVENT */
+.hero-next-event{
+  position:absolute;
+  z-index:7;
+  left:clamp(56px,8vw,150px);
+  top:50%;
+  transform:translateY(-45%);
+  width:min(560px,38vw);
+  padding:30px 34px 32px;
+  border-left:2px solid #8b5cff;
+  background:linear-gradient(90deg,rgba(5,6,11,.88),rgba(5,6,11,.52),transparent);
+  text-shadow:0 2px 18px rgba(0,0,0,.9);
+}
+.hero-next-event:before{
+  content:"";
+  position:absolute;
+  left:-2px;
+  top:0;
+  width:2px;
+  height:82px;
+  background:#32c8ff;
+  box-shadow:0 0 20px rgba(50,200,255,.7);
+}
+.hero-next-label{
+  margin:0 0 14px;
+  color:#a879ff;
+  font:800 12px/1 Orbitron,sans-serif;
+  letter-spacing:.22em;
+}
+.hero-next-label span{
+  display:inline-block;
+  width:28px;
+  height:1px;
+  margin:0 10px 3px 0;
+  background:#a879ff;
+  box-shadow:0 0 10px #a879ff;
+}
+.hero-next-date{
+  display:inline-block;
+  font:800 clamp(24px,2.1vw,36px)/1 Orbitron,sans-serif;
+  letter-spacing:.02em;
+}
+.hero-next-time{
+  display:inline-block;
+  margin-left:12px;
+  color:#32c8ff;
+  font:800 18px/1 Orbitron,sans-serif;
+}
+.hero-next-event h2{
+  margin:18px 0 10px;
+  font:900 clamp(28px,3vw,48px)/1.05 "Noto Sans JP",sans-serif;
+  letter-spacing:.01em;
+}
+.hero-next-location{
+  margin:0;
+  color:#d4d7df;
+  font-size:14px;
+}
+.hero-next-meta{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:20px;
+}
+.hero-next-meta span{
+  padding:7px 10px;
+  border:1px solid rgba(139,92,255,.45);
+  background:rgba(8,8,14,.55);
+  color:#b9a9ec;
+  font:700 9px/1 Orbitron,sans-serif;
+  letter-spacing:.08em;
+}
+@media(max-width:900px){
+  .hero-next-event{
+    left:28px;
+    top:auto;
+    bottom:125px;
+    transform:none;
+    width:min(80vw,520px);
+    padding:20px 22px;
+  }
+  .hero-next-event h2{font-size:28px}
+  .hero-next-date{font-size:22px}
+  .hero-next-time{font-size:14px}
+}
+@media(max-width:600px){
+  .hero-next-event{
+    left:18px;
+    bottom:105px;
+    width:calc(100vw - 36px);
+  }
+  .hero-next-meta{display:none}
+}

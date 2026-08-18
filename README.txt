@@ -1,10 +1,9 @@
-公開サイトSTEP3更新版。
-GitHubのルートにある以下3ファイルを置き換えてください:
-1. index.html
-2. public-db.js
-3. upcoming-events.css
+左側の空いているヒーロー部分にNEXT EVENTを大きく表示する修正版。
 
-supabase-config.js は変更不要です。
-これで events テーブルの「今日以降」のイベントを日付順に最大3件取得し、
-一番近いイベントをNEXT EVENTとして大きく表示します。
-開催日を過ぎると自動的に次のイベントがNEXT EVENTになります。
+GitHubルートで以下3ファイルを置き換えてください:
+- index.html
+- public-db.js
+- hero-event.css（新規追加）
+
+supabase-config.js は変更不要。
+管理画面のeventsテーブルから「今日以降で一番近いイベント」を取得します。
