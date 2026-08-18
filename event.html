@@ -1,175 +1,44 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Refloria DRIFT CHAMPIONSHIP - EVENT">
-  <title>EVENT | Refloria DRIFT CHAMPIONSHIP</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="event.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>EVENT | REFLORIA DRIFT CHAMPIONSHIP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.events-page{min-height:100vh;padding:135px 6vw 90px;background:radial-gradient(circle at 75% 10%,rgba(139,92,255,.14),transparent 32%),#06070b}
+.event-head{border-left:2px solid #8b5cff;padding-left:22px;margin-bottom:42px}.event-kicker{font:800 11px Orbitron,sans-serif;letter-spacing:3px;color:#a879ff}.event-head h1{font:900 clamp(44px,6vw,82px) Orbitron,sans-serif;margin:12px 0}.event-head p{color:#9297a5}
+.events-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.event-card{min-height:370px;padding:27px;background:linear-gradient(145deg,#0d0f16,#080a0f);border:1px solid rgba(255,255,255,.11);position:relative;overflow:hidden}.event-card:first-child{border-color:#8b5cff;box-shadow:0 0 45px rgba(139,92,255,.08)}.event-card:after{content:"";position:absolute;width:220px;height:220px;right:-100px;bottom:-100px;background:radial-gradient(circle,rgba(50,200,255,.12),transparent 70%)}.event-no{font:800 10px Orbitron,sans-serif;letter-spacing:2px;color:#a879ff}.event-date{font:800 24px Orbitron,sans-serif;margin-top:18px}.event-time{color:#32c8ff;font-size:12px;margin-left:7px}.event-card h2{font:900 26px/1.2 "Noto Sans JP",sans-serif;margin:20px 0 12px}.event-place{color:#c8ccd5;font-size:14px}.event-host{margin-top:20px;font:600 10px Orbitron,sans-serif;color:#a5aab7}.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:22px}.tag{font:700 9px Orbitron,sans-serif;padding:7px 9px;border:1px solid rgba(139,92,255,.55);color:#d8c9ff}.event-desc{color:#9297a5;font-size:12px;line-height:1.8;margin-top:20px}.empty{color:#9297a5;border:1px dashed rgba(255,255,255,.18);padding:30px}.past-note{margin-top:24px;color:#626875;font:600 10px Orbitron,sans-serif;letter-spacing:1px}
+@media(max-width:1000px){.events-grid{grid-template-columns:1fr 1fr}}@media(max-width:650px){.events-grid{grid-template-columns:1fr}.events-page{padding:115px 5vw 60px}}
+</style>
 </head>
 <body>
-  <div class="noise"></div>
-
-  <header class="site-header" id="top">
-    <a class="brand" href="index.html" aria-label="Refloria DRIFT CHAMPIONSHIP">
-      <span class="brand-mark">R</span>
-      <span>
-        <strong>REFLORIA</strong>
-        <small>DRIFT CHAMPIONSHIP</small>
-      </span>
-    </a>
-
-    <button class="menu-toggle" aria-label="メニューを開く" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-
-    <nav class="nav">
-      <a href="index.html">HOME</a>
-      <a class="active" href="event.html">EVENT</a>
-      <a href="index.html#drivers">DRIVERS</a>
-      <a href="index.html#tournament">TOURNAMENT</a>
-      <a href="index.html#result">RESULT</a>
-      <a href="index.html#gallery">GALLERY</a>
-      <a href="index.html#news">NEWS</a>
-      <a class="nav-entry" href="index.html#entry">ENTRY</a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="event-hero">
-      <div class="event-hero-grid"></div>
-      <div class="event-hero-glow"></div>
-
-      <div class="event-hero-copy reveal">
-        <p class="eyebrow"><span></span> NEXT EVENT</p>
-        <h1>NEXT<br><em>EVENT</em></h1>
-        <p class="event-lead">
-          次回開催のドリフトイベント。<br>
-          高額賞金をかけた、単走・追走のドリフトバトル。
-        </p>
-        <div class="event-date-box next-event-main">
-          <span>NEXT EVENT</span>
-          <strong><span data-event-date>2026.08.29 SAT</span></strong>
-          <small><span data-event-time>22:00</span> START / <span data-event-location>170番地地下</span></small>
-        </div>
-      </div>
-
-      <div class="event-hero-car">
-        <img src="hero-car.png" alt="Refloria Drift Championship competition car">
-        <div></div>
-      </div>
-    </section>
-
-    <section class="event-stats">
-      <div><span>DATE</span><strong data-event-date-short>08.29 SAT</strong><small><span data-event-time>22:00</span> START</small></div>
-      <div><span>VENUE</span><strong data-event-location>170番地地下</strong><small>EVENT LOCATION</small></div>
-      <div><span>CLASS</span><strong>DRIFT ONLY</strong><small>TCS OFF 推奨</small></div>
-      <div><span>FORMAT</span><strong>審査形式</strong><small>単走追走 / 審査員審査</small></div>
-    </section>
-
-    <section class="event-section reveal">
-      <div class="section-kicker"><span>01</span> NEXT EVENT</div>
-      <div class="overview-grid next-overview">
-        <div>
-          <h2>HIGH PRIZE<br><em>DRIFT EVENT.</em></h2>
-          <p>
-            次回開催は、170番地地下を舞台にした高額賞金ドリフトイベント。
-            ドリフト車限定で、TCS OFF推奨の本格ドリフトバトル。
-          </p>
-          <p>
-            単走・追走を審査員が審査する形式で、ドライバーのライン、
-            角度、スタイル、追走時のプレッシャーを総合的に評価。
-          </p>
-        </div>
-        <div class="overview-panel">
-          <div><span>DATE</span><strong data-event-date>2026.08.29 SAT</strong></div>
-          <div><span>START</span><strong data-event-time>22:00</strong></div>
-          <div><span>VENUE</span><strong data-event-location>170番地地下</strong></div>
-          <div><span>CLASS</span><strong>DRIFT ONLY<br><small>TCS OFF 推奨</small></strong></div>
-        </div>
-      </div>
-    </section>
-
-    
-
-    
-
-    <section class="event-section reveal event-secondary">
-      <div class="section-kicker"><span>02</span> UPCOMING EVENT</div>
-      <div class="secondary-event">
-        <div class="secondary-date">
-          <span>2026.08.22</span>
-          <strong>SAT</strong>
-          <b>22:00</b>
-        </div>
-        <div class="secondary-copy">
-          <p class="eyebrow"><span></span> DRIFT EVENT</p>
-          <h2>いろは坂下り <em>DRIFT</em></h2>
-          <div class="secondary-tags">
-            <span>ドリフトレース</span>
-            <span>ドリフト車限定</span>
-            <span>TCS OFF 推奨</span>
-            <span>ノンカスのみ</span>
-          </div>
-          <p>いろは坂下りを舞台にしたドリフトレース。ドリフト車限定、TCS OFF推奨、ノンカスのみ。</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="event-section reveal">
-      <div class="section-kicker"><span>02</span> VENUE</div>
-      <div class="venue-grid">
-        <div class="venue-map">
-          <div class="map-lines"></div>
-          <div class="map-pin">R</div>
-          <span>170番地地下</span>
-        </div>
-        <div class="venue-copy">
-          <p class="eyebrow"><span></span> 170番地地下</p>
-          <h2>DRIFT<br><em>EVENT</em></h2>
-          <p>170番地地下中心部に設定された特設ドリフトコース。壁・コーナー・高速セクションを組み合わせたテクニカルレイアウト。</p>
-          <div class="venue-tags"><span>STREET</span><span>TECHNICAL</span><span>NIGHT</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="event-section reveal">
-      <div class="section-kicker"><span>03</span> INFORMATION</div>
-      <div class="entry-grid">
-        <div class="entry-card">
-          <span>REGISTRATION</span>
-          <h2>ENTRY <em>OPEN</em></h2>
-          <p>参加受付・詳細はENTRYページから確認できます。</p>
-          <a class="btn btn-primary" href="index.html#entry">ENTRY NOW <span>↗</span></a>
-        </div>
-        <div class="info-list">
-          <div><span>CLASS</span><b>ドリフト車限定</b></div>
-          <div><span>TCS</span><b>OFF 推奨</b></div>
-          <div><span>FORMAT</span><b>単走追走 / 審査員審査形式</b></div>
-          <div><span>EVENT</span><b>高額賞金イベント</b></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="event-cta reveal">
-      <p>NEXT EVENT / 2026.08.29 SAT / 22:00</p>
-      <h2>SEE YOU<br><em>AT THE EVENT.</em></h2>
-      <a class="btn btn-primary" href="index.html#entry">ENTER THE CHAMPIONSHIP <span>↗</span></a>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div><strong>REFLORIA</strong><span>DRIFT CHAMPIONSHIP</span></div>
-    <p>© 2026 REFLORIA DRIFT CHAMPIONSHIP. ALL RIGHTS RESERVED.</p>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js"></script>
-<script src="script.js"></script>
-<script src="public-db.js"></script>
-</body>
-</html>
+<div class="noise"></div>
+<header class="site-header" id="top">
+<a class="brand" href="index.html"><span class="brand-mark">R</span><span><strong>REFLORIA</strong><small>DRIFT CHAMPIONSHIP</small></span></a>
+<button class="menu-toggle" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button>
+<nav class="nav"><a href="index.html">HOME</a><a class="active" href="event.html">EVENT</a><a href="drivers.html">DRIVERS</a><a href="tournament.html">TOURNAMENT</a><a href="result.html">RESULT</a><a href="gallery.html">GALLERY</a><a href="news.html">NEWS</a></nav>
+</header>
+<main class="events-page">
+<div class="event-head"><div class="event-kicker">EVENT / UPCOMING</div><h1>UPCOMING EVENTS</h1><p>これから開催されるイベントを最大3件表示します。</p></div>
+<div id="eventsGrid" class="events-grid"><div class="empty">イベントを読み込み中...</div></div>
+<div class="past-note">開催日を過ぎたイベントは自動的に一覧から外れ、次のイベントが繰り上がります。</div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script><script src="events.js"></script>
+<script>
+(async()=>{
+ const events=await loadRefloriaEvents(), grid=document.getElementById('eventsGrid');
+ if(!events.length){grid.innerHTML='<div class="empty">現在、予定されているイベントはありません。</div>';return}
+ grid.innerHTML=events.map((e,i)=>`<article class="event-card">
+ <div class="event-no">EVENT ${String(i+1).padStart(2,'0')}</div>
+ <div class="event-date">${formatShort(e.event_date)} <span class="event-time">${esc(e.event_time)}</span></div>
+ <h2>${esc(e.event_name)}</h2><div class="event-place">📍 ${esc(e.event_location)}</div>
+ <div class="event-host">HOST / ${esc(e.host || '—')} / ${esc(e.prize || '—')}</div>
+ <div class="tags">${eventTags(e).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+ <p class="event-desc">${esc(e.description || '')}</p>
+ </article>`).join('');
+})();
+</script>
+</body></html>

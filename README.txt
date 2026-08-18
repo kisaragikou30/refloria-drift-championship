@@ -1,9 +1,8 @@
-左側の空いているヒーロー部分にNEXT EVENTを大きく表示する修正版。
-
-GitHubルートで以下3ファイルを置き換えてください:
-- index.html
-- public-db.js
-- hero-event.css（新規追加）
-
-supabase-config.js は変更不要。
-管理画面のeventsテーブルから「今日以降で一番近いイベント」を取得します。
+HOME修正版
+- 車画像は残しています。
+- ENTRYボタン/ENTRYナビは削除。
+- HOMEの下部コンテンツは削除。
+- HOMEはヒーロー画面＋次回イベント表示だけ。
+- 次回イベントはSupabaseの開催日が近い順で自動表示。
+- EVENTは最大3件の今後のイベントを表示。
+- adminフォルダは変更していません。
