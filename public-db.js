@@ -1,67 +1,44 @@
-(() => {
-  function formatDate(date) {
-    const d = new Date(date + "T00:00:00");
-    const w = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
-    return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")} ${w[d.getDay()]}`;
+const { createClient } = supabase;
+const refloriaDB = createClient(window.REFLORIA_SUPABASE_URL, window.REFLORIA_SUPABASE_KEY);
+
+function fmtDate(dateStr, withDay = true) {
+  if (!dateStr) return "TBD";
+  const d = new Date(dateStr + "T00:00:00");
+  const days = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+  const base = `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")}`;
+  return withDay ? `${base} ${days[d.getDay()]}` : `${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")} ${days[d.getDay()]}`;
+}
+
+function safeText(el, value) { if (el && value != null) el.textContent = value; }
+
+async function loadRefloriaData() {
+  const { data: event, error: eventError } = await refloriaDB.from("event_settings").select("*").order("id", { ascending: false }).limit(1).maybeSingle();
+  if (!eventError && event) {
+    document.querySelectorAll("[data-event-name]").forEach(e => safeText(e, event.event_name));
+    document.querySelectorAll("[data-event-location]").forEach(e => safeText(e, event.event_location));
+    document.querySelectorAll("[data-event-date]").forEach(e => safeText(e, fmtDate(event.event_date)));
+    document.querySelectorAll("[data-event-date-short]").forEach(e => safeText(e, fmtDate(event.event_date, false)));
+    document.querySelectorAll("[data-event-time]").forEach(e => safeText(e, (event.event_time || "").slice(0,5)));
+    document.querySelectorAll("[data-event-prize]").forEach(e => safeText(e, event.prize || ""));
+    document.querySelectorAll("[data-event-description]").forEach(e => safeText(e, event.description || ""));
+    document.querySelectorAll("[data-event-host]").forEach(e => safeText(e, event.host || ""));
   }
 
-  async function loadNextEvent() {
-    if (!window.supabase || !window.REFLORIA_SUPABASE_URL || !window.REFLORIA_SUPABASE_KEY) return;
-
-    const client = window.supabase.createClient(
-      window.REFLORIA_SUPABASE_URL,
-      window.REFLORIA_SUPABASE_KEY
-    );
-
-    const today = new Intl.DateTimeFormat("en-CA", {
-      timeZone:"Asia/Tokyo", year:"numeric", month:"2-digit", day:"2-digit"
-    }).format(new Date());
-
-    const { data, error } = await client
-      .from("events")
-      .select("*")
-      .gte("event_date", today)
-      .order("event_date", {ascending:true})
-      .order("event_time", {ascending:true})
-      .limit(1);
-
-    if (error || !data?.[0]) {
-      console.error("REFLORIA NEXT EVENT:", error);
-      return;
-    }
-
-    const e = data[0];
-    const date = formatDate(e.event_date);
-    const time = String(e.event_time || "").slice(0,5);
-
-    // New large hero panel
-    document.querySelectorAll("[data-hero-event-date]").forEach(el => el.textContent = date);
-    document.querySelectorAll("[data-hero-event-time]").forEach(el => el.textContent = time);
-    document.querySelectorAll("[data-hero-event-name]").forEach(el => el.textContent = e.event_name || "");
-    document.querySelectorAll("[data-hero-event-location]").forEach(el => el.textContent = e.event_location || "TBD");
-    document.querySelectorAll("[data-hero-event-host]").forEach(el => el.textContent = `HOST / ${e.host || "—"}`);
-    document.querySelectorAll("[data-hero-event-prize]").forEach(el => el.textContent = `PRIZE / ${e.prize || "—"}`);
-
-    // Existing small hero stats
-    document.querySelectorAll("[data-event-date]").forEach(el => el.textContent = date);
-    document.querySelectorAll("[data-event-time]").forEach(el => el.textContent = time);
-    document.querySelectorAll("[data-event-location]").forEach(el => el.textContent = e.event_location || "TBD");
-
-    // Existing event card (if present)
-    document.querySelectorAll("[data-event-name]").forEach(el => el.textContent = e.event_name || "");
+  const { data: drivers, error: driverError } = await refloriaDB.from("drivers").select("*").order("id", { ascending: true });
+  if (!driverError) {
+    document.querySelectorAll("[data-drivers-count]").forEach(e => safeText(e, drivers?.length || 0));
+    const grids = document.querySelectorAll("[data-drivers-grid]");
+    grids.forEach(grid => {
+      if (!drivers?.length) { grid.innerHTML = '<div class="driver-card reveal"><div class="driver-photo photo-a"><span>--</span></div><div class="driver-info"><small>REGISTERED</small><h3>NO DRIVERS YET</h3><p>ENTRY OPEN</p></div></div>'; return; }
+      grid.innerHTML = drivers.map((d,i) => `
+        <article class="driver-card reveal">
+          <div class="driver-photo photo-${String.fromCharCode(97+(i%4))}"><span>#${escapeHtml(d.number || String(i+1))}</span></div>
+          <div class="driver-info"><small>DRIVER</small><h3>${escapeHtml(d.name)}</h3><p>${escapeHtml(d.car || 'CAR TBD')}</p></div>
+        </article>`).join('');
+    });
   }
+}
 
-  async function loadDriversCount() {
-    if (!window.supabase || !window.REFLORIA_SUPABASE_URL || !window.REFLORIA_SUPABASE_KEY) return;
-    const client = window.supabase.createClient(window.REFLORIA_SUPABASE_URL, window.REFLORIA_SUPABASE_KEY);
-    const { data, error } = await client.from("drivers").select("id");
-    if (!error) {
-      document.querySelectorAll("[data-drivers-count]").forEach(el => el.textContent = data?.length ?? 0);
-    }
-  }
+function escapeHtml(v) { return String(v ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m])); }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    loadNextEvent();
-    loadDriversCount();
-  });
-})();
+loadRefloriaData();
