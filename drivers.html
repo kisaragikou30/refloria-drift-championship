@@ -1,20 +1,103 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>DRIVERS | REFLORIA DRIFT CHAMPIONSHIP</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css"><style>
-.page{min-height:100vh;padding:150px 7vw 90px;background:radial-gradient(circle at 75% 15%,rgba(139,92,255,.16),transparent 35%),#06070b}
-.page-head{margin-bottom:45px;border-left:2px solid #8b5cff;padding-left:22px}.page-kicker{font:800 11px Orbitron,sans-serif;letter-spacing:.25em;color:#9f70ff}.page-title{font:900 clamp(40px,6vw,80px) Orbitron,sans-serif;margin:10px 0}.page-sub{color:#9297a5;max-width:760px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#0c0e14;border:1px solid rgba(255,255,255,.1);padding:26px}.card h3{margin:8px 0 10px}.accent{color:#32c8ff}.number{font:800 12px Orbitron,sans-serif;color:#a879ff}.wide{grid-column:1/-1}.muted{color:#9297a5}.btn{display:inline-block;margin-top:25px;padding:13px 20px;border:1px solid #8b5cff;color:#fff;text-decoration:none}.news{padding:18px 0;border-bottom:1px solid rgba(255,255,255,.1)}
-@media(max-width:800px){.cards{grid-template-columns:1fr}}
-</style></head><body><header class="site-header">
+<link rel="stylesheet" href="style.css">
+<style>
+body{background:#06070b;color:#fff}
+.drivers-page{min-height:100vh;padding:125px 6vw 100px}
+.page-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:45px}
+.kicker{font:700 11px Orbitron,sans-serif;letter-spacing:3px;color:#a879ff}
+.kicker:before{content:"";display:inline-block;width:28px;height:1px;background:#32c8ff;vertical-align:middle;margin-right:10px}
+h1{font:900 clamp(42px,6vw,82px) Orbitron,sans-serif;letter-spacing:-3px;margin:15px 0 0}
+h1 span{color:#8b5cff}
+.view-all{font:700 10px Orbitron,sans-serif;letter-spacing:1.5px;color:#fff;text-decoration:none;border-bottom:1px solid #555;padding-bottom:8px}
+#driversGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.driver-card{background:#0c0e14;border:1px solid rgba(255,255,255,.11);position:relative;overflow:hidden;min-height:330px;transition:.25s}
+.driver-card:hover{transform:translateY(-5px);border-color:#8b5cff}
+.driver-visual{height:210px;background:radial-gradient(circle at 70% 30%,#2a2a4d,#11131b 45%,#07080c);position:relative}
+.driver-visual:after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,transparent 20%,rgba(139,92,255,.2),transparent 70%)}
+.driver-number{position:absolute;right:12px;bottom:-8px;font:900 76px Orbitron,sans-serif;color:rgba(255,255,255,.06);z-index:2}
+.driver-info{padding:18px}
+.driver-info small{font:700 9px Orbitron,sans-serif;color:#8b5cff;letter-spacing:2px}
+.driver-info h2{font:900 22px "Noto Sans JP",sans-serif;margin:7px 0 5px}
+.driver-info p{font:600 11px Orbitron,sans-serif;color:#9ba0ad;margin:0}
+.empty{border:1px dashed rgba(255,255,255,.18);padding:35px;color:#9297a5}
+@media(max-width:1000px){#driversGrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.drivers-page{padding:105px 5vw 60px}.page-top{display:block}.view-all{display:inline-block;margin-top:20px}#driversGrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="site-header">
 <a class="brand" href="index.html"><span>R</span><strong>REFLORIA</strong><small>DRIFT CHAMPIONSHIP</small></a>
 <nav class="nav">
-<a href="index.html">HOME</a><a href="event.html" class="">EVENT</a>
+<a href="index.html">HOME</a>
+<a href="event.html">EVENT</a>
 <a href="drivers.html" class="active">DRIVERS</a>
-<a href="tournament.html" class="">TOURNAMENT</a>
-<a href="result.html" class="">RESULT</a>
-<a href="gallery.html" class="">GALLERY</a>
-<a href="news.html" class="">NEWS</a><a class="nav-entry" href="entry.html">ENTRY</a>
-</nav></header>
-<main class="page"><div class="page-head"><div class="page-kicker">DRIVERS / SEASON 01</div><h1 class="page-title">DRIVERS</h1><p class="page-sub">大会に出場するドライバー。番号・選手名・主な車種を掲載します.</p></div><div class="cards"><div class="card wide"><div class="number">DRIVERS</div><h3>選手情報</h3><p class="muted">管理画面から登録した選手をここに表示します。</p><div data-drivers-grid></div></div></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="public-db.js"></script></main></body></html>
+<a href="tournament.html">TOURNAMENT</a>
+<a href="result.html">RESULT</a>
+<a href="gallery.html">GALLERY</a>
+<a href="news.html">NEWS</a>
+<a class="nav-entry" href="entry.html">ENTRY</a>
+</nav>
+</header>
+
+<main class="drivers-page">
+  <div class="page-top">
+    <div>
+      <div class="kicker">02 / DRIVERS</div>
+      <h1>MEET THE <span>DRIVERS</span></h1>
+    </div>
+    <a class="view-all" href="drivers.html">VIEW ALL DRIVERS ↗</a>
+  </div>
+
+  <div id="driversGrid">
+    <div class="empty">DRIVERSを読み込み中...</div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+window.REFLORIA_SUPABASE_URL = "https://sofeiqphjhtocnigrpsg.supabase.co";
+window.REFLORIA_SUPABASE_KEY = "sb_publishable_Mg7xnlC0bCfYkWjO6CAAZQ_sqaTXkBm";
+
+const db = supabase.createClient(window.REFLORIA_SUPABASE_URL, window.REFLORIA_SUPABASE_KEY);
+
+function esc(v) {
+  return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+}
+
+async function loadDrivers() {
+  const grid = document.getElementById('driversGrid');
+  const {data, error} = await db.from('drivers').select('id,number,name,car').order('id', {ascending:true});
+  if (error) {
+    grid.innerHTML = '<div class="empty">選手情報を読み込めませんでした。</div>';
+    console.error(error);
+    return;
+  }
+  if (!data || !data.length) {
+    grid.innerHTML = '<div class="empty">現在、登録されている選手はいません。</div>';
+    return;
+  }
+  grid.innerHTML = data.map(d => `
+    <article class="driver-card">
+      <div class="driver-visual">
+        <div class="driver-number">#${esc(d.number || '—')}</div>
+      </div>
+      <div class="driver-info">
+        <small>DRIVER</small>
+        <h2>${esc(d.name || 'NAME TBD')}</h2>
+        <p>${esc(d.car || 'CAR TBD')}</p>
+      </div>
+    </article>
+  `).join('');
+}
+loadDrivers();
+</script>
+</body>
+</html>
