@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>REFLORIA GALLERY ADMIN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Noto+Sans+JP:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#05060a;color:#f5f6fa;font-family:"Noto Sans JP",sans-serif}
+.wrap{max-width:1100px;margin:auto;padding:40px 24px 80px}.brand{font:900 34px Orbitron,sans-serif;letter-spacing:-1px}.brand span{color:#8b5cff}
+.panel{margin-top:28px;border:1px solid #252936;background:#090b11;padding:28px}
+h1{font:900 34px Orbitron;margin:0}.sub{color:#9da3b5;margin:8px 0 25px}
+label{display:block;color:#aeb4c5;font-size:13px;margin:15px 0 7px}
+input,select{width:100%;padding:13px;background:#07090e;border:1px solid #303545;color:#fff;font-size:15px}
+button{border:0;padding:13px 20px;background:#8b5cff;color:white;font-weight:800;cursor:pointer;margin-top:18px}
+button.danger{background:#6d1d31}button:disabled{opacity:.5;cursor:not-allowed}
+.msg{margin-top:14px;color:#32c8ff}.err{color:#ff6b7a}
+.row{display:grid;grid-template-columns:180px 1fr;gap:18px}
+.item{display:flex;justify-content:space-between;gap:20px;align-items:center;border-top:1px solid #252936;padding:16px 0}
+.item small{color:#8b5cff}.url{word-break:break-all;color:#aeb4c5;font-size:12px}
+.hidden{display:none}@media(max-width:700px){.row{grid-template-columns:1fr}.item{display:block}.item button{margin-top:10px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">REFLORIA <span>GALLERY ADMIN</span></div>
+
+  <section id="loginPanel" class="panel">
+    <h1>ADMIN LOGIN</h1>
+    <div class="sub">イベントフォトとHIGHLIGHTSを同じ管理画面から追加できます。</div>
+    <label>メールアドレス</label><input id="email" type="email">
+    <label>パスワード</label><input id="password" type="password">
+    <button id="loginBtn">LOGIN</button>
+    <div id="loginMsg" class="msg"></div>
+  </section>
+
+  <section id="app" class="panel hidden">
+    <div style="display:flex;justify-content:space-between;gap:15px;align-items:center">
+      <div>
+        <h1>MEDIA MANAGER</h1>
+        <div class="sub">写真も動画もここからURLを登録できます。</div>
+      </div>
+      <button id="logoutBtn" class="danger">LOGOUT</button>
+    </div>
+
+    <label>種類</label>
+    <select id="type">
+      <option value="photo">EVENT PHOTOS / 写真</option>
+      <option value="video">HIGHLIGHTS / 動画</option>
+    </select>
+
+    <div class="row">
+      <div>
+        <label>タイトル</label><input id="title" placeholder="例：SEASON 01 FINAL">
+      </div>
+      <div>
+        <label>URL</label><input id="url" placeholder="画像URL / YouTube URL / MP4 URL">
+      </div>
+    </div>
+
+    <label id="thumbLabel">サムネイルURL（動画のみ・任意）</label>
+    <input id="thumb" placeholder="https://...">
+    <button id="addBtn">追加する</button>
+    <div id="msg" class="msg"></div>
+
+    <h2 style="margin-top:40px;font-family:Orbitron">REGISTERED MEDIA</h2>
+    <div id="list">読み込み中...</div>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../supabase-config.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+let db=null;
+
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+function msg(t,e=false){$('msg').textContent=t;$('msg').className='msg'+(e?' err':'');}
+
+async function boot(){
+  if(!window.supabase||!window.REFLORIA_SUPABASE_URL||!window.REFLORIA_SUPABASE_KEY){
+    $('loginMsg').textContent='Supabase設定を読み込めません。';return;
+  }
+  db=supabase.createClient(window.REFLORIA_SUPABASE_URL,window.REFLORIA_SUPABASE_KEY);
+  const {data}=await db.auth.getSession();
+  if(data.session) openApp();
+}
+function openApp(){$('loginPanel').classList.add('hidden');$('app').classList.remove('hidden');loadList();}
+function embedUrl(url){
+  try{
+    const u=new URL(url);
+    if(u.hostname.includes('youtube.com')){
+      const id=u.searchParams.get('v'); return id?'https://www.youtube.com/embed/'+id:null;
+    }
+    if(u.hostname==='youtu.be') return 'https://www.youtube.com/embed/'+u.pathname.slice(1);
+  }catch(e){}
+  return null;
+}
+async function loadList(){
+  const {data,error}=await db.from('gallery_media').select('*').order('sort_order',{ascending:true}).order('created_at',{ascending:false});
+  if(error){$('list').textContent='読み込み失敗: '+error.message;return;}
+  if(!data.length){$('list').textContent='まだ登録されていません。';return;}
+  $('list').innerHTML=data.map(x=>`
+    <div class="item">
+      <div><small>${x.media_type==='photo'?'EVENT PHOTO':'HIGHLIGHT'}</small>
+      <div><b>${esc(x.title||'NO TITLE')}</b></div>
+      <div class="url">${esc(x.media_url)}</div></div>
+      <button class="danger" onclick="removeMedia(${x.id})">削除</button>
+    </div>`).join('');
+}
+async function removeMedia(id){
+  if(!confirm('このメディアを削除しますか？'))return;
+  const {error}=await db.from('gallery_media').delete().eq('id',id);
+  if(error){msg('削除失敗: '+error.message,true);return;}
+  msg('削除しました。');loadList();
+}
+$('type').addEventListener('change',()=>{
+  const video=$('type').value==='video';
+  $('thumb').style.display=video?'block':'none';
+  $('thumbLabel').style.display=video?'block':'none';
+});
+$('addBtn').onclick=async()=>{
+  const type=$('type').value,title=$('title').value.trim(),url=$('url').value.trim(),thumb=$('thumb').value.trim();
+  if(!url){msg('URLを入力してください。',true);return;}
+  try{new URL(url)}catch(e){msg('URLの形式が正しくありません。',true);return;}
+  $('addBtn').disabled=true;
+  const {error}=await db.from('gallery_media').insert({media_type:type,title,media_url:url,thumbnail_url:thumb||null,sort_order:0});
+  $('addBtn').disabled=false;
+  if(error){msg('追加失敗: '+error.message,true);return;}
+  $('title').value='';$('url').value='';$('thumb').value='';
+  msg('追加しました ✓');loadList();
+};
+$('loginBtn').onclick=async()=>{
+  $('loginBtn').disabled=true;
+  const {error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});
+  $('loginBtn').disabled=false;
+  if(error){$('loginMsg').textContent=error.message;return;}
+  openApp();
+};
+$('logoutBtn').onclick=async()=>{await db.auth.signOut();location.reload();};
+boot();
+</script>
+</body>
+</html>
